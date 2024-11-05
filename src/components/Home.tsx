@@ -6,7 +6,6 @@ import { ShowRoom } from "@components/three/ShowRoom";
 export const Home = () => {
   return (
     <>
-      home
       <Canvas>
         <axesHelper args={[5]} />
         <gridHelper />
