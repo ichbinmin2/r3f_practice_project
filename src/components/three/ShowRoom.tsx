@@ -1,9 +1,11 @@
 import * as THREE from "three";
 import { OBJLoader } from "three/examples/jsm/loaders/OBJLoader";
+import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader";
 import { useLoader } from "@react-three/fiber";
 
 export const ShowRoom = () => {
-  const obj = useLoader(OBJLoader, "./models/burger/Burger.obj");
+  const obj = useLoader(FBXLoader, "./models/burger/Burger.obj");
+
   return (
     <>
       <primitive object={obj} />
