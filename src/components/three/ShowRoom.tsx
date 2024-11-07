@@ -1,11 +1,11 @@
 import * as THREE from "three";
-import { OBJLoader } from "three/examples/jsm/loaders/OBJLoader";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { useLoader } from "@react-three/fiber";
 import { useThree } from "@react-three/fiber";
+import { CameraControls } from "@react-three/drei";
 
 export const ShowRoom = () => {
-  const { raycaster } = useThree();
+  const { raycaster, camera } = useThree();
   const gltf = useLoader(GLTFLoader, "./models/burger/Burger.glb");
 
   console.log("gltf", gltf);
@@ -21,12 +21,6 @@ export const ShowRoom = () => {
 
       console.log("firstObj", firstObj.name);
 
-      // const cloneMat = firstMat.clone();
-
-      // firstObj.material = cloneMat;
-      // const mat = firstObj.material as THREE.MeshStandardMaterial;
-      // mat.color = new THREE.Color("#D0B8A0");
-
       if (firstObj.name === "bun") {
         const mat = firstObj.material as THREE.MeshStandardMaterial;
         mat.color = new THREE.Color("#be945f");
@@ -36,6 +30,17 @@ export const ShowRoom = () => {
 
   return (
     <>
+      <directionalLight position={[3, 3, 3]} />
+      <CameraControls
+        enabled={true} // 조건에 따른 컨트롤즈 사용 여부를 결정하는 옵션
+        dollyToCursor={false}
+        // 커서의 방향으로 줌을 당긴다는 뜻
+        // 모바일에서 줌인줌아웃 손동작에 반응하며, 웹에선 마우스 스크롤 하면 줌인-줌아웃이 되는 옵션
+        // 3D 카메라에서만 작동함(2D에선 작동x)
+        onChange={() => {
+          console.log("camera.zoom", camera.zoom);
+        }}
+      />
       <primitive object={gltf.scene} onClick={burgerClick} />
       {/* <mesh
         rotation={[
