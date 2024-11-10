@@ -33,13 +33,17 @@ export const ShowRoom = () => {
       <directionalLight position={[3, 3, 3]} />
       <CameraControls
         enabled={true} // 조건에 따른 컨트롤즈 사용 여부를 결정하는 옵션
-        dollyToCursor={false}
+        dollyToCursor={true}
         // 커서의 방향으로 줌을 당긴다는 뜻
         // 모바일에서 줌인줌아웃 손동작에 반응하며, 웹에선 마우스 스크롤 하면 줌인-줌아웃이 되는 옵션
         // 3D 카메라에서만 작동함(2D에선 작동x)
         onChange={() => {
-          console.log("camera.zoom", camera.zoom);
+          // console.log("camera.position", camera.position);
+          // console.log("camera.zoom", camera.zoom);
         }}
+        minDistance={2} // 줌 인을 하다보면 3D모델링의 절두체에 잘려서 보이는 경우가 있다. 이를 방지하기 위해서 대부분 카메라가 갈수 있는 거리를 한정해놓는다.
+        maxDistance={10} // 줌 아웃을 하다보면 3D모델링과 아주 멀어져서 보이는 경우가 있다. 이를 방지하기 위해서 maxDistance 옵션을 통해 대부분 카메라가 갈수 있는 거리를 한정해놓는다.
+        // infinityDolly={true} // infinityDolly 를 true로 설정하면, 내가 설정한 minDistance와 maxDistance 값을 다 무시하게 된다.
       />
       <primitive object={gltf.scene} onClick={burgerClick} />
       {/* <mesh
