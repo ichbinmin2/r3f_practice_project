@@ -1,15 +1,44 @@
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
-import { useLoader } from "@react-three/fiber";
+import { useFrame, useLoader } from "@react-three/fiber";
 import { useThree } from "@react-three/fiber";
 import { CameraControls } from "@react-three/drei";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 
 export const ShowRoom = () => {
   const { raycaster, camera } = useThree();
   const cameraControlsRef = useRef<CameraControls>(null);
   const gltf = useLoader(GLTFLoader, "./models/burger/Burger.glb");
 
+  console.log("gltf", gltf);
+  window.addEventListener("keydown", (e) => {
+    console.log("e.key", e.key);
+
+    switch (e.key) {
+      case "a":
+        cameraControlsRef.current?.setLookAt(10, 10, 10, 0, 0, 0, true);
+        break;
+      case "b":
+        cameraControlsRef.current?.setLookAt(0, 10, 0, 0, 0, 0, true);
+        break;
+    }
+  });
+
+  // 초기화
+  useEffect(() => {
+    cameraControlsRef.current?.setTarget(0, 0, 0, false);
+  });
+
+  let angle = 0;
+  const dis = 5;
+  useFrame(() => {
+    cameraControlsRef.current?.setPosition(
+      Math.sin(angle) * dis,
+      0.8,
+      Math.cos(angle) * dis
+    );
+    angle = angle + 0.01;
+  });
   const burgerClick = () => {
     console.log("burger click");
 
