@@ -3,12 +3,13 @@ import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { useFrame, useLoader } from "@react-three/fiber";
 import { useThree } from "@react-three/fiber";
 import { CameraControls } from "@react-three/drei";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export const ShowRoom = () => {
   const { raycaster, camera } = useThree();
   const cameraControlsRef = useRef<CameraControls>(null);
   const gltf = useLoader(GLTFLoader, "./models/burger/Burger.glb");
+  const [isFitting, setIsFitting] = useState(false);
 
   console.log("gltf", gltf);
   window.addEventListener("keydown", (e) => {
@@ -27,18 +28,35 @@ export const ShowRoom = () => {
   // 초기화
   useEffect(() => {
     cameraControlsRef.current?.setTarget(0, 0, 0, false);
+
+    cameraControlsRef.current?.addEventListener("control", () => {
+      console.log("control");
+
+      setIsFitting(true);
+    });
+
+    cameraControlsRef.current?.addEventListener("sleep", () => {
+      console.log("sleep");
+
+      setIsFitting(false);
+    });
   });
 
   let angle = 0;
   const dis = 5;
   useFrame(() => {
-    cameraControlsRef.current?.setPosition(
-      Math.sin(angle) * dis,
-      0.8,
-      Math.cos(angle) * dis
-    );
-    angle = angle + 0.01;
+    // console.log("isFitting", isFitting);
+    if (!isFitting) {
+      cameraControlsRef.current?.setPosition(
+        Math.sin(angle) * dis,
+        0.8,
+        Math.cos(angle) * dis,
+        true
+      );
+      angle = angle + 0.01;
+    }
   });
+
   const burgerClick = () => {
     console.log("burger click");
 
@@ -53,7 +71,7 @@ export const ShowRoom = () => {
       if (firstObj.name === "bun") {
         const mat = firstObj.material as THREE.MeshStandardMaterial;
         mat.color = new THREE.Color("#be945f");
-
+        // setIsFitting(true);
         // cameraControlsRef.current?.setLookAt(
         //   10,
         //   10,
@@ -65,6 +83,7 @@ export const ShowRoom = () => {
         // );
 
         cameraControlsRef.current?.fitToBox(firstObj, true);
+        // .then(() => setIsFitting(false));
         // cameraControlsRef.current?.fitToSphere(firstObj, true);
       }
     }
