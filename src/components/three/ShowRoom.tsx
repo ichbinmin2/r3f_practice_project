@@ -42,19 +42,45 @@ export const ShowRoom = () => {
     });
   });
 
-  let angle = 0;
+  const angle = 0;
   const dis = 5;
   useFrame(() => {
     // console.log("isFitting", isFitting);
-    if (!isFitting) {
-      cameraControlsRef.current?.setPosition(
-        Math.sin(angle) * dis,
-        0.8,
-        Math.cos(angle) * dis,
-        true
-      );
-      angle = angle + 0.01;
-    }
+    // if (!isFitting) {
+    //   cameraControlsRef.current?.setPosition(
+    //     Math.sin(angle) * dis,
+    //     0.8,
+    //     Math.cos(angle) * dis,
+    //     true
+    //   );
+    //   angle = angle + 0.01;
+    // }
+
+    const cutlet = gltf.scene.children[0];
+    const cheese = gltf.scene.children[1];
+
+    const salad = gltf.scene.children[3];
+    const sesame = gltf.scene.children[4];
+    const bun = gltf.scene.children[5];
+
+    // mesh 위치 조정
+    // cutlet.rotation.y = THREE.MathUtils.degToRad(-200);
+    // cutlet.position.x = -0.2;
+
+    // cheese.rotation.y = THREE.MathUtils.degToRad(-200);
+    // cheese.position.x = -0.2;
+
+    // salad.rotation.y = THREE.MathUtils.degToRad(200);
+    // salad.position.y = 0.1;
+
+    // sesame.rotation.y = THREE.MathUtils.degToRad(-400);
+    // sesame.rotation.x = THREE.MathUtils.degToRad(-20);
+    // sesame.position.y = 0.2;
+
+    // bun.rotation.y = THREE.MathUtils.degToRad(-400);
+    // bun.rotation.x = THREE.MathUtils.degToRad(-20);
+    // bun.position.y = 0.2;
+    // bun.position.x = 0.3;
   });
 
   const burgerClick = () => {
@@ -107,6 +133,10 @@ export const ShowRoom = () => {
         // maxDistance={10} // 줌 아웃을 하다보면 3D모델링과 아주 멀어져서 보이는 경우가 있다. 이를 방지하기 위해서 maxDistance 옵션을 통해 대부분 카메라가 갈수 있는 거리를 한정해놓는다.
         // infinityDolly={true} // infinityDolly 를 true로 설정하면, 내가 설정한 minDistance와 maxDistance 값을 다 무시하게 된다.
       />
+      <mesh position={[0, -0.1, 0]} scale={5}>
+        <cylinderGeometry args={[0.4, 0.2, 0.3, 50]} />
+        <meshStandardMaterial />
+      </mesh>
       <primitive object={gltf.scene} onClick={burgerClick} />
       {/* <mesh
         rotation={[
