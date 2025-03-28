@@ -7,10 +7,11 @@ export const Home = () => {
   return (
     <>
       <Canvas
+      // shadows
       // orthographic
       >
-        <axesHelper args={[5]} />
-        <gridHelper />
+        {/* <axesHelper args={[5]} />
+        <gridHelper /> */}
 
         {/* <directionalLight position={[3, 3, 3]} /> */}
         <ShowRoom />
